@@ -1,8 +1,8 @@
 package br.com.stone.stonecripto.register
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import br.com.stone.stonecripto.R
 import br.com.stone.stonecripto.di.component.DaggerRegisterComponent
 import br.com.stone.stonecripto.di.module.RegisterModule
@@ -35,6 +35,6 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     }
 
     override fun closeActivity() {
-        closeActivity()
+        finish()
     }
 }

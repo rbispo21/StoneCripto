@@ -1,8 +1,8 @@
 package br.com.stone.stonecripto.welcome
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import br.com.stone.stonecripto.R
 import br.com.stone.stonecripto.di.component.DaggerWelcomeComponent
 import br.com.stone.stonecripto.di.module.WelcomeModule
