@@ -28,9 +28,9 @@
             android:text="Continuar"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            android:id="@+id/button" android:layout_marginBottom="40dp"
+            android:id="@+id/btnContinue" android:layout_marginBottom="40dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:background="@color/colorBackgroundButton"
-            android:textColor="@color/colorText"/>
+            android:textColor="@color/colorText" android:textSize="16sp"/>
 </android.support.constraint.ConstraintLayout>
