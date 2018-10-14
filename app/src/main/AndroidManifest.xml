@@ -23,8 +23,14 @@
         <activity
                 android:name=".register.RegisterActivity"
                 android:screenOrientation="portrait"/>
-        <activity android:name=".registerSuccess.RegisterSuccessActivity"
-                  android:theme="@style/Theme.AppCompat.NoActionBar"
-                  android:screenOrientation="portrait"/>
+        <activity
+                android:name=".registerSuccess.RegisterSuccessActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+                android:name=".home.HomeActivity"
+                android:label="@string/title_activity_home">
+        </activity>
     </application>
+
 </manifest>
