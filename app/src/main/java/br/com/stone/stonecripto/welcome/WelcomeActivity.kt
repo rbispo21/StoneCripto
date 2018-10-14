@@ -14,8 +14,8 @@ class WelcomeActivity : AppCompatActivity(), WelcomeContract.View {
     lateinit var presenter: WelcomeContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val component = DaggerWelcomeComponent.builder().welcomeModule(WelcomeModule(this)).build()
-        component.inject(this)
+        DaggerWelcomeComponent.builder()
+            .welcomeModule(WelcomeModule(this)).build().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 

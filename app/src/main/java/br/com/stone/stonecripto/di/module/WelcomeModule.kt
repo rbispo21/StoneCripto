@@ -8,7 +8,7 @@ import dagger.Provides
 @Module
 class WelcomeModule(val view: WelcomeContract.View) {
     @Provides
-    fun providerWelComePresenter():WelcomeContract.Presenter {
+    fun providerWelcomePresenter():WelcomeContract.Presenter {
         return WelcomePresenter(view)
     }
 }
