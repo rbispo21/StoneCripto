@@ -7,5 +7,6 @@
 
     <color name="colorBackground">#1c1c1c</color>
     <color name="colorText">#ffffff</color>
+    <color name="colorTextHint">#dedede</color>
     <color name="colorBackgroundButton">#12AA4B</color>
 </resources>
