@@ -1,6 +1,7 @@
 package br.com.stone.stonecripto.registerSuccess
 
 import android.animation.Animator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,13 @@ class RegisterSuccessActivity : AppCompatActivity(), RegisterSuccessContract.Vie
         setContentView(R.layout.activity_register_success)
 
         animationMonitore()
+        configureButton()
+    }
+
+    fun configureButton() {
+        btnContinue.setOnClickListener {
+            presenter.clickContinue(this)
+        }
     }
 
     fun animationMonitore() {
@@ -46,5 +54,13 @@ class RegisterSuccessActivity : AppCompatActivity(), RegisterSuccessContract.Vie
         txtDescription.text = "$name, Você ganhou um bonus por se cadastrar na maior exchange do Brasil!"
         txtDescription.visibility = View.VISIBLE
         btnContinue.visibility = View.VISIBLE
+    }
+
+    override fun callActivity(intent: Intent) {
+        startActivity(intent)
+    }
+
+    override fun closeActivity() {
+        finish()
     }
 }
