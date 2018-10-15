@@ -10,6 +10,7 @@ interface WelcomeContract {
     }
 
     interface Presenter {
+        fun create(context: Context)
         fun clickContinue(context: Context)
     }
 }

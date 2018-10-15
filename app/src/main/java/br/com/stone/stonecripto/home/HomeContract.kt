@@ -9,6 +9,7 @@ interface HomeContract {
     }
 
     interface Presenter {
+        fun create()
         fun clickDashboard()
         fun clickHistory()
     }

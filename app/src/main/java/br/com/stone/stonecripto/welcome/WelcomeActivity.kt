@@ -15,11 +15,12 @@ class WelcomeActivity : AppCompatActivity(), WelcomeContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerWelcomeComponent.builder()
-            .welcomeModule(WelcomeModule(this)).build().inject(this)
+            .welcomeModule(WelcomeModule(this, this)).build().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
         configureClickButton()
+        presenter.create(this)
     }
 
     private fun configureClickButton() {

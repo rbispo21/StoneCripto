@@ -21,6 +21,11 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.create()
+    }
+
     override fun changeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
     }
