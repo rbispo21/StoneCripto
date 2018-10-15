@@ -9,4 +9,6 @@
     <color name="colorText">#ffffff</color>
     <color name="colorTextHint">#dedede</color>
     <color name="colorBackgroundButton">#12AA4B</color>
+    <color name="colorBackgroundBuy">#12AA4B</color>
+    <color name="colorBackgroundSell">#e13d19</color>
 </resources>
