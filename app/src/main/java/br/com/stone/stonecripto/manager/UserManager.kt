@@ -5,11 +5,11 @@ import io.realm.Realm
 
 class UserManager: UserRepository {
     override fun saveName(name: String) {
-        val user = User(name)
         val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        realm.copyToRealm(user)
-        realm.commitTransaction()
+        realm.executeTransaction {
+            val user = User(name)
+            realm.copyToRealm(user)
+        }
     }
 
     override fun clearUser() {
