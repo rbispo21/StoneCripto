@@ -17,7 +17,7 @@ class WelcomePresenter(val view: WelcomeContract.View, val userManager: UserRepo
         view.closeActivity()
     }
 
-    fun autoLogin(context: Context) {
+    private fun autoLogin(context: Context) {
         if (userManager.hasUser()) {
             val intent = Intent(context, HomeActivity::class.java)
             view.callActivity(intent)
