@@ -22,12 +22,9 @@ class DashboardFragment : Fragment(), DashboardContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        context?.let {
-            DaggerDashboardComponent.builder()
-                .dashboardModule(DashboardModule(it, this))
-                .build().inject(this)
-        }
-
+        DaggerDashboardComponent.builder()
+            .dashboardModule(DashboardModule(this))
+            .build().inject(this)
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 

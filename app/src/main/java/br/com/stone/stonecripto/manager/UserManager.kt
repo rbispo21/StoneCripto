@@ -1,32 +1,37 @@
 package br.com.stone.stonecripto.manager
 
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
+import br.com.stone.stonecripto.model.User
+import io.realm.Realm
 
-class UserManager(val context: Context): UserRepository {
-    private val PREFERENCES_USER = "user_preferences"
-    private val PREFERENCES_USER_NAME = "user_preferences_name"
-
+class UserManager: UserRepository {
     override fun saveName(name: String) {
-        val preferenceEditor = context.getSharedPreferences(PREFERENCES_USER, MODE_PRIVATE).edit()
-        preferenceEditor.putString(PREFERENCES_USER_NAME, name)
-        preferenceEditor.apply()
+        val user = User(name)
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.copyToRealm(user)
+        realm.commitTransaction()
     }
 
     override fun clearUser() {
-        val preferenceEditor = context.getSharedPreferences(PREFERENCES_USER, MODE_PRIVATE).edit()
-        preferenceEditor.clear()
-        preferenceEditor.apply()
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction {
+            it.where(User::class.java).findAll().deleteAllFromRealm()
+        }
     }
 
     override fun getUserName(): String {
-        val preference = context.getSharedPreferences(PREFERENCES_USER, MODE_PRIVATE)
-        return preference.getString(PREFERENCES_USER_NAME, "Anônimo")
+        val realm = Realm.getDefaultInstance()
+        val user = realm.where(User::class.java).findFirst()
+        user?.name?.let {
+            return it
+        }
+        return "Anônimo"
     }
 
     override fun hasUser(): Boolean {
-        val preference = context.getSharedPreferences(PREFERENCES_USER, MODE_PRIVATE)
-        return preference.contains(PREFERENCES_USER_NAME)
+        val realm = Realm.getDefaultInstance()
+        val user = realm.where(User::class.java).findFirst()
+        return user != null
     }
 
 }

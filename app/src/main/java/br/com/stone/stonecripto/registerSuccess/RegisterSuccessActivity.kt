@@ -17,7 +17,7 @@ class RegisterSuccessActivity : AppCompatActivity(), RegisterSuccessContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerRegisterSuccessComponent
             .builder()
-            .registerSuccessModule(RegisterSuccessModule(this, this)).
+            .registerSuccessModule(RegisterSuccessModule(this)).
                 build()
                 .inject(this)
         super.onCreate(savedInstanceState)
