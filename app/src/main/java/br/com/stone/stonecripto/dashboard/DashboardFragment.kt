@@ -1,5 +1,6 @@
 package br.com.stone.stonecripto.dashboard
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,8 @@ import br.com.stone.stonecripto.di.component.DaggerDashboardComponent
 import br.com.stone.stonecripto.di.module.DashboardModule
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import javax.inject.Inject
-import android.app.Activity
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 
 
 class DashboardFragment : Fragment(), DashboardContract.View {
@@ -34,7 +34,19 @@ class DashboardFragment : Fragment(), DashboardContract.View {
 
     override fun onResume() {
         super.onResume()
+        configuteTitle()
+        configureButton()
         presenter.load()
+    }
+
+    fun configuteTitle() {
+        (activity as AppCompatActivity).supportActionBar?.title = "Dashboard"
+    }
+
+    fun configureButton() {
+        btnBuy.setOnClickListener {
+            presenter.clickBuy(edtAmountBuy.text.toString().toDouble())
+        }
     }
 
     override fun setFriendlyMessage(text: String) {
@@ -63,5 +75,18 @@ class DashboardFragment : Fragment(), DashboardContract.View {
 
     override fun hideKeyboard() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+    }
+
+    override fun showAlert(title: String, message: String) {
+        val alert = AlertDialog.Builder(context, R.style.AlertDialogTheme)
+        alert.setTitle(title)
+        alert.setMessage(message)
+        alert.setNeutralButton("Fechar", null)
+        alert.show()
+    }
+
+    override fun clearEdit() {
+        edtAmountBuy.setText("")
+        edtAmountSell.setText("")
     }
 }

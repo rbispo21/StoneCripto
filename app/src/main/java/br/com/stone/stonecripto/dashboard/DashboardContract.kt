@@ -9,11 +9,13 @@ interface DashboardContract {
         fun setPriceSell(text: String)
         fun setNameCoin(text: String)
         fun hideKeyboard()
+        fun showAlert(title: String, message: String)
+        fun clearEdit()
     }
 
     interface Presenter {
         fun load()
-//        fun clickBuy(amount: Double)
-//        fun clickSell(amount: Double)
+        fun clickBuy(amount: Double)
+        fun clickSell(amount: Double)
     }
 }

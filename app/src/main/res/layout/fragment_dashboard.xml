@@ -107,7 +107,7 @@
                 <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:ems="10"
                         android:id="@+id/edtAmountBuy"
                         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +180,6 @@
                 <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
                         android:ems="10"
                         android:id="@+id/edtAmountSell"
                         app:layout_constraintStart_toStartOf="parent"
@@ -191,7 +190,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/txtPriceSeller"
                         android:hint="Quantidade"
                         android:textColor="@color/colorText"
-                        android:textColorHint="@color/colorTextHint"/>
+                        android:textColorHint="@color/colorTextHint" android:inputType="numberDecimal"/>
                 <Button
                         android:text="Vender"
                         android:layout_width="200dp"

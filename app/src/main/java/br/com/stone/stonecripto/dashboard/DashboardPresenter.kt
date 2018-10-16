@@ -15,8 +15,7 @@ class DashboardPresenter(val view: DashboardContract.View,
 
     override fun load() {
         view.setFriendlyMessage("Olá, ${userManager.getUserName()} sejam bem vindo")
-        view.setBalanceReal("Saldo: ${CoinManager.getBalance(CoinType.BRL).currencyString()}")
-        view.setBalanceCripto("Saldo: ${CoinManager.getBalance(typeCoinSelected)} ${typeCoinSelected.name}")
+        updateBalance()
         view.setNameCoin(typeCoinSelected.name)
         updateQuotation()
         view.hideKeyboard()
@@ -24,6 +23,11 @@ class DashboardPresenter(val view: DashboardContract.View,
 
     fun updateQuotation() {
         RemoteRepository.getQuotation(typeCoinSelected, this)
+    }
+
+    fun updateBalance() {
+        view.setBalanceReal("Saldo: ${CoinManager.getBalance(CoinType.BRL).currencyString()}")
+        view.setBalanceCripto("Saldo: ${CoinManager.getBalance(typeCoinSelected)} ${typeCoinSelected.name}")
     }
 
     override fun success(quotation: Quotation) {
@@ -38,5 +42,20 @@ class DashboardPresenter(val view: DashboardContract.View,
 
     override fun closeMarket() {
         marketClose = true
+    }
+
+    override fun clickBuy(amount: Double) {
+        view.hideKeyboard()
+        if (CoinManager.buyCoin(typeCoinSelected, amount)) {
+            updateBalance()
+            view.clearEdit()
+            view.showAlert("Compra realizada", "Compra realizada com sucesso")
+        } else {
+            view.showAlert("Falha na compra", "Você não possui saldo para fazer essa operação")
+        }
+    }
+
+    override fun clickSell(amount: Double) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
