@@ -1,9 +1,8 @@
 package br.com.stone.stonecripto.manager
 
-import br.com.stone.stonecripto.model.Coin
-import br.com.stone.stonecripto.model.CoinType
-import br.com.stone.stonecripto.model.Quotation
+import br.com.stone.stonecripto.model.*
 import io.realm.Realm
+import java.util.*
 
 object CoinManager {
     fun addBalanceInitial(type: CoinType) {
@@ -48,7 +47,7 @@ object CoinManager {
 
     fun buyCoin(type: CoinType, amount: Double): Boolean {
         if (hasBalance(type, amount)) {
-            payment(type, amount)
+            buy(type, amount)
             addCoin(type, amount)
             return true
         }else {
@@ -72,7 +71,7 @@ object CoinManager {
         return if (priceTotal > 0) getBalance(CoinType.BRL) >= priceTotal else false
     }
 
-    private fun payment(type: CoinType, amount: Double) {
+    private fun buy(type: CoinType, amount: Double) {
         val priceTotal = getPriceTotalBuy(type, amount)
         val realm = Realm.getDefaultInstance()
         val coinBRL = realm.where(Coin::class.java).equalTo("name", CoinType.BRL.name).findFirst()
@@ -81,8 +80,19 @@ object CoinManager {
                 realm.executeTransaction {
                     itCoinBRL.balance = itBalance - priceTotal
                 }
+
+                realm.executeTransaction {
+                    val transaction = realm.createObject(Transaction::class.java)
+                    transaction.date = Date()
+                    transaction.type = TransactionType.BUY.name
+                    transaction.typeCoin = type.name
+                    transaction.amount = amount
+                    transaction.priceTotal = priceTotal
+                }
             }
         }
+
+
     }
 
     private fun sell(type: CoinType, amount: Double) {
@@ -93,6 +103,15 @@ object CoinManager {
             itCoin.balance?.let {itCoinBalance ->
                 realm.executeTransaction {
                     itCoin.balance = itCoinBalance - amount
+                }
+
+                realm.executeTransaction {
+                    val transaction = realm.createObject(Transaction::class.java)
+                    transaction.date = Date()
+                    transaction.type = TransactionType.SELL.name
+                    transaction.typeCoin = type.name
+                    transaction.amount = amount
+                    transaction.priceTotal = priceSell
                 }
             }
         }
