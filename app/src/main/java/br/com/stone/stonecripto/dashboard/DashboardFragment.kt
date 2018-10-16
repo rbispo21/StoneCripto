@@ -45,7 +45,11 @@ class DashboardFragment : Fragment(), DashboardContract.View {
 
     fun configureButton() {
         btnBuy.setOnClickListener {
-            presenter.clickBuy(edtAmountBuy.text.toString().toDouble())
+            presenter.clickBuy(edtAmountBuy.text.toString())
+        }
+
+        btnSell.setOnClickListener {
+            presenter.clickSell(edtAmountSell.text.toString())
         }
     }
 

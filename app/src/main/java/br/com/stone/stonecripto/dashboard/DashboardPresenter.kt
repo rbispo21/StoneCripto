@@ -44,18 +44,33 @@ class DashboardPresenter(val view: DashboardContract.View,
         marketClose = true
     }
 
-    override fun clickBuy(amount: Double) {
-        view.hideKeyboard()
-        if (CoinManager.buyCoin(typeCoinSelected, amount)) {
-            updateBalance()
-            view.clearEdit()
-            view.showAlert("Compra realizada", "Compra realizada com sucesso")
+    override fun clickBuy(amount: String) {
+        if (amount.isNotEmpty()) {
+            view.hideKeyboard()
+            if (CoinManager.buyCoin(typeCoinSelected, amount.toDouble())) {
+                updateBalance()
+                view.clearEdit()
+                view.showAlert("Compra realizada", "Compra realizada com sucesso")
+            } else {
+                view.showAlert("Falha na compra", "Você não possui saldo para fazer essa operação")
+            }
         } else {
-            view.showAlert("Falha na compra", "Você não possui saldo para fazer essa operação")
+            view.showAlert("Falha na compra", "Digite um valor a ser comprado")
         }
     }
 
-    override fun clickSell(amount: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun clickSell(amount: String) {
+        if (amount.isNotEmpty()) {
+            view.hideKeyboard()
+            if (CoinManager.sellCoin(typeCoinSelected, amount.toDouble())) {
+                updateBalance()
+                view.clearEdit()
+                view.showAlert("Venda realizada", "Venda realizada com sucesso")
+            } else {
+                view.showAlert("Falha na venda", "Você não possui saldo para fazer essa operação")
+            }
+        } else {
+            view.showAlert("Falha na venda", "Digite um valor a ser vendido")
+        }
     }
 }

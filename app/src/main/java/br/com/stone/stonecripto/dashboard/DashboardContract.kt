@@ -15,7 +15,7 @@ interface DashboardContract {
 
     interface Presenter {
         fun load()
-        fun clickBuy(amount: Double)
-        fun clickSell(amount: Double)
+        fun clickBuy(amount: String)
+        fun clickSell(amount: String)
     }
 }

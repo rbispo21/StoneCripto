@@ -56,19 +56,43 @@ object CoinManager {
         }
     }
 
+    fun sellCoin(type: CoinType, amount: Double): Boolean {
+        val balance = getBalance(type)
+        if (balance >= amount) {
+            addCoin(CoinType.BRL, getPriceTotalSell(type, amount))
+            sell(type, amount)
+            return true
+        } else {
+            return false
+        }
+    }
+
     private fun hasBalance(type: CoinType, amount: Double): Boolean {
-        val priceTotal = getPriceTotal(type, amount)
+        val priceTotal = getPriceTotalBuy(type, amount)
         return if (priceTotal > 0) getBalance(CoinType.BRL) >= priceTotal else false
     }
 
     private fun payment(type: CoinType, amount: Double) {
-        val priceTotal = getPriceTotal(type, amount)
+        val priceTotal = getPriceTotalBuy(type, amount)
         val realm = Realm.getDefaultInstance()
         val coinBRL = realm.where(Coin::class.java).equalTo("name", CoinType.BRL.name).findFirst()
         coinBRL?.let {itCoinBRL ->
             itCoinBRL.balance?.let {itBalance ->
                 realm.executeTransaction {
                     itCoinBRL.balance = itBalance - priceTotal
+                }
+            }
+        }
+    }
+
+    private fun sell(type: CoinType, amount: Double) {
+        val realm = Realm.getDefaultInstance()
+        val coin = realm.where(Coin::class.java).equalTo("name",type.name).findFirst()
+        coin?.let { itCoin ->
+            val priceSell = getPriceTotalSell(type, amount)
+            itCoin.balance?.let {itCoinBalance ->
+                realm.executeTransaction {
+                    itCoin.balance = itCoinBalance - amount
                 }
             }
         }
@@ -86,10 +110,19 @@ object CoinManager {
         }
     }
 
-    private fun getPriceTotal(type: CoinType, amount: Double): Double{
+    private fun getPriceTotalBuy(type: CoinType, amount: Double): Double{
         val realm = Realm.getDefaultInstance()
         val coin = realm.where(Coin::class.java).equalTo("name", type.name).findFirst()
         coin?.priceBuy?.let {
+            return amount * it
+        }
+        return 0.0
+    }
+
+    private fun getPriceTotalSell(type: CoinType, amount: Double): Double{
+        val realm = Realm.getDefaultInstance()
+        val coin = realm.where(Coin::class.java).equalTo("name", type.name).findFirst()
+        coin?.priceSell?.let {
             return amount * it
         }
         return 0.0
