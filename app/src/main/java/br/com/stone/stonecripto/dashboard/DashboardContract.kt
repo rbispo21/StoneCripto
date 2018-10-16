@@ -17,5 +17,6 @@ interface DashboardContract {
         fun load()
         fun clickBuy(amount: String)
         fun clickSell(amount: String)
+        fun clickChangeCoin()
     }
 }

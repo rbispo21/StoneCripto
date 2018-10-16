@@ -17,7 +17,10 @@ object RemoteRepository {
             CoinType.BRI -> {
                 val dateFormat = SimpleDateFormat("MM-dd-yyyy")
                 val date = Date()
-                val dateString = "'${dateFormat.format(date)}'"
+                val calendar = java.util.Calendar.getInstance()
+                calendar.time= date
+                calendar.add(Calendar.DATE, retry * -1)
+                val dateString = "'${dateFormat.format(calendar.time)}'"
                 Log.d("teste", "date: $dateString")
                 BankCentralService.instance.getCriptoPrice(dateString, "json")
                     .subscribeOn(Schedulers.io())
@@ -46,6 +49,7 @@ object RemoteRepository {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({tickerModelRest ->
+                        retry = 0
                         val quotation = Quotation(tickerModelRest.ticker.priceSell, tickerModelRest.ticker.priceBuy, type)
                         listener.success(quotation)
                     }, {error ->

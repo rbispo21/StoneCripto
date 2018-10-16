@@ -73,4 +73,13 @@ class DashboardPresenter(val view: DashboardContract.View,
             view.showAlert("Falha na venda", "Digite um valor a ser vendido")
         }
     }
+
+    override fun clickChangeCoin() {
+        if (typeCoinSelected == CoinType.BTC)
+            typeCoinSelected = CoinType.BRI
+        else
+            typeCoinSelected = CoinType.BTC
+
+        load()
+    }
 }

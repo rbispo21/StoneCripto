@@ -51,6 +51,10 @@ class DashboardFragment : Fragment(), DashboardContract.View {
         btnSell.setOnClickListener {
             presenter.clickSell(edtAmountSell.text.toString())
         }
+
+        btnChangeCoin.setOnClickListener {
+            presenter.clickChangeCoin()
+        }
     }
 
     override fun setFriendlyMessage(text: String) {
