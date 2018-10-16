@@ -5,8 +5,8 @@ import io.realm.Realm
 import io.realm.RealmResults
 import java.util.*
 
-object CoinManager {
-    fun addBalanceInitial(type: CoinType) {
+class CoinManager: CoinRepository {
+    override fun addBalanceInitial(type: CoinType) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
             val coin = realm.createObject(Coin::class.java)
@@ -16,7 +16,7 @@ object CoinManager {
         }
     }
 
-    fun getBalance(type: CoinType): Double {
+    override fun getBalance(type: CoinType): Double {
         val realm = Realm.getDefaultInstance()
         val coin = realm.where(Coin::class.java).equalTo("name", type.name).findFirst()
         coin?.balance?.let {
@@ -25,7 +25,7 @@ object CoinManager {
         return 0.0
     }
 
-    fun updatePrice(type: CoinType, priceBuy: Double, priceSell: Double): Boolean {
+    override fun updatePrice(type: CoinType, priceBuy: Double, priceSell: Double): Boolean {
         val realm = Realm.getDefaultInstance()
         val coin = realm.where(Coin::class.java).equalTo("name", type.name).findFirst()
         coin?.let {itCoin ->
@@ -46,7 +46,7 @@ object CoinManager {
         return true
     }
 
-    fun buyCoin(type: CoinType, amount: Double): Boolean {
+    override fun buyCoin(type: CoinType, amount: Double): Boolean {
         if (hasBalance(type, amount)) {
             buy(type, amount)
             addCoin(type, amount)
@@ -56,7 +56,7 @@ object CoinManager {
         }
     }
 
-    fun sellCoin(type: CoinType, amount: Double): Boolean {
+    override fun sellCoin(type: CoinType, amount: Double): Boolean {
         val balance = getBalance(type)
         if (balance >= amount) {
             addCoin(CoinType.BRL, getPriceTotalSell(type, amount))
@@ -148,7 +148,7 @@ object CoinManager {
         return 0.0
     }
 
-    fun getAllTransaction(): RealmResults<Transaction> {
+    override fun getAllTransaction(): RealmResults<Transaction> {
         val realm = Realm.getDefaultInstance()
         return realm.where(Transaction::class.java).findAll()
     }
