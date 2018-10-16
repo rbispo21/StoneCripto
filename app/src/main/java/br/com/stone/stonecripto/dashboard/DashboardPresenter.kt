@@ -4,12 +4,14 @@ import br.com.stone.stonecripto.api.RemoteRepository
 import br.com.stone.stonecripto.currencyString
 import br.com.stone.stonecripto.listener.QuotationListener
 import br.com.stone.stonecripto.manager.CoinManager
+import br.com.stone.stonecripto.manager.CoinRepository
 import br.com.stone.stonecripto.manager.UserRepository
 import br.com.stone.stonecripto.model.CoinType
 import br.com.stone.stonecripto.model.Quotation
 
 class DashboardPresenter(val view: DashboardContract.View,
-                         val userManager: UserRepository): DashboardContract.Presenter, QuotationListener {
+                         val userManager: UserRepository,
+                         val coinManager: CoinRepository): DashboardContract.Presenter, QuotationListener {
     var typeCoinSelected = CoinType.BTC
     var marketClose = false
 
@@ -26,12 +28,12 @@ class DashboardPresenter(val view: DashboardContract.View,
     }
 
     fun updateBalance() {
-        view.setBalanceReal("Saldo: ${CoinManager.getBalance(CoinType.BRL).currencyString()}")
-        view.setBalanceCripto("Saldo: ${CoinManager.getBalance(typeCoinSelected)} ${typeCoinSelected.name}")
+        view.setBalanceReal("Saldo: ${coinManager.getBalance(CoinType.BRL).currencyString()}")
+        view.setBalanceCripto("Saldo: ${coinManager.getBalance(typeCoinSelected)} ${typeCoinSelected.name}")
     }
 
     override fun success(quotation: Quotation) {
-        CoinManager.updatePrice(typeCoinSelected, quotation.priceBuy, quotation.priceSell)
+        coinManager.updatePrice(typeCoinSelected, quotation.priceBuy, quotation.priceSell)
         view.setPriceBuy("Preço de compra: ${quotation.priceBuy.currencyString()}")
         view.setPriceSell("Preço de venda: ${quotation.priceSell.currencyString()}")
     }
@@ -47,7 +49,7 @@ class DashboardPresenter(val view: DashboardContract.View,
     override fun clickBuy(amount: String) {
         if (amount.isNotEmpty()) {
             view.hideKeyboard()
-            if (CoinManager.buyCoin(typeCoinSelected, amount.toDouble())) {
+            if (coinManager.buyCoin(typeCoinSelected, amount.toDouble())) {
                 updateBalance()
                 view.clearEdit()
                 view.showAlert("Compra realizada", "Compra realizada com sucesso")
@@ -62,7 +64,7 @@ class DashboardPresenter(val view: DashboardContract.View,
     override fun clickSell(amount: String) {
         if (amount.isNotEmpty()) {
             view.hideKeyboard()
-            if (CoinManager.sellCoin(typeCoinSelected, amount.toDouble())) {
+            if (coinManager.sellCoin(typeCoinSelected, amount.toDouble())) {
                 updateBalance()
                 view.clearEdit()
                 view.showAlert("Venda realizada", "Venda realizada com sucesso")
