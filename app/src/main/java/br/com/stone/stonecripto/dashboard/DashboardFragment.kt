@@ -11,6 +11,10 @@ import br.com.stone.stonecripto.di.component.DaggerDashboardComponent
 import br.com.stone.stonecripto.di.module.DashboardModule
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import javax.inject.Inject
+import android.app.Activity
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+
 
 class DashboardFragment : Fragment(), DashboardContract.View {
     @Inject lateinit var presenter: DashboardContract.Presenter
@@ -45,4 +49,19 @@ class DashboardFragment : Fragment(), DashboardContract.View {
         txtBalanceCripto.text = text
     }
 
+    override fun setPriceBuy(text: String) {
+        txtPriceBuy.text = text
+    }
+
+    override fun setPriceSell(text: String) {
+        txtPriceSeller.text = text
+    }
+
+    override fun setNameCoin(text: String) {
+        txtCoin.text = text
+    }
+
+    override fun hideKeyboard() {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+    }
 }

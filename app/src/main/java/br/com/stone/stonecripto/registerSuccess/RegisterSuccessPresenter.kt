@@ -17,7 +17,6 @@ class RegisterSuccessPresenter(val view: RegisterSuccessContract.View,
     override fun animationFinish() {
         view.hideAnimation()
         view.showMessageSuccess(userManager.getUserName())
-        val coinManager = CoinManager()
-        coinManager.addBalanceInitial(CoinType.BRL)
+        CoinManager.addBalanceInitial(CoinType.BRL)
     }
 }

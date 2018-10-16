@@ -2,9 +2,10 @@ package br.com.stone.stonecripto.manager
 
 import br.com.stone.stonecripto.model.Coin
 import br.com.stone.stonecripto.model.CoinType
+import br.com.stone.stonecripto.model.Quotation
 import io.realm.Realm
 
-class CoinManager {
+object CoinManager {
     fun addBalanceInitial(type: CoinType) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
@@ -24,12 +25,13 @@ class CoinManager {
         return 0.0
     }
 
-    fun updatePrice(type: CoinType, price: Double): Boolean {
+    fun updatePrice(type: CoinType, priceBuy: Double, priceSell: Double): Boolean {
         val realm = Realm.getDefaultInstance()
         val coin = realm.where(Coin::class.java).equalTo("name", type.name).findFirst()
-        coin?.let {itCoint ->
+        coin?.let {itCoin ->
             realm.executeTransaction {
-                itCoint.price = price
+                itCoin.priceBuy = priceBuy
+                itCoin.priceSell = priceSell
             }
             return true
         }
@@ -38,7 +40,8 @@ class CoinManager {
             val coinRealm = realm.createObject(Coin::class.java)
             coinRealm.name = type.name
             coinRealm.balance = 0.00
-            coinRealm.price = price
+            coinRealm.priceBuy = priceBuy
+            coinRealm.priceSell = priceSell
         }
         return true
     }
@@ -86,7 +89,7 @@ class CoinManager {
     private fun getPriceTotal(type: CoinType, amount: Double): Double{
         val realm = Realm.getDefaultInstance()
         val coin = realm.where(Coin::class.java).equalTo("name", type.name).findFirst()
-        coin?.price?.let {
+        coin?.priceBuy?.let {
             return amount * it
         }
         return 0.0
