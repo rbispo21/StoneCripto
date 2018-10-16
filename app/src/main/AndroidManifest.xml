@@ -32,6 +32,7 @@
                 android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
                 android:name=".home.HomeActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_home">
         </activity>
     </application>
