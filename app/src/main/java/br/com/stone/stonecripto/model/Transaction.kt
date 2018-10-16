@@ -3,5 +3,5 @@ package br.com.stone.stonecripto.model
 import io.realm.RealmObject
 import java.util.*
 
-data class Transaction(var type: String?, var typeCoin: String?, var amount: Double?,
-                       var priceTotal: Double?, var date: Date?): RealmObject()
+open class Transaction(var type: String? = null, var typeCoin: String? = null, var amount: Double? = 0.0,
+                       var priceTotal: Double? = 0.0, var date: Date? = Date()): RealmObject()

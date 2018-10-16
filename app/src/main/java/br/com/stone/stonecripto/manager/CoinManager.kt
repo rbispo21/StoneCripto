@@ -2,6 +2,7 @@ package br.com.stone.stonecripto.manager
 
 import br.com.stone.stonecripto.model.*
 import io.realm.Realm
+import io.realm.RealmResults
 import java.util.*
 
 object CoinManager {
@@ -145,5 +146,10 @@ object CoinManager {
             return amount * it
         }
         return 0.0
+    }
+
+    fun getAllTransaction(): RealmResults<Transaction> {
+        val realm = Realm.getDefaultInstance()
+        return realm.where(Transaction::class.java).findAll()
     }
 }
