@@ -20,6 +20,7 @@ class WelcomeActivity : AppCompatActivity(), WelcomeContract.View {
         setContentView(R.layout.activity_welcome)
 
         configureClickButton()
+        presenter.create(this)
     }
 
     private fun configureClickButton() {

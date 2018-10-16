@@ -13,7 +13,7 @@ class RegisterActivity : AppCompatActivity(), RegisterContract.View {
     @Inject lateinit var presenter: RegisterContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerRegisterComponent.builder().registerModule(RegisterModule(this, this)).build().inject(this)
+        DaggerRegisterComponent.builder().registerModule(RegisterModule(this)).build().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         configureTitle()
